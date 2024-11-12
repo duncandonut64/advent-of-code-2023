@@ -51,7 +51,27 @@ def maxCubes(game):
         # print(max_rgb)
         return 0
 
+def getPower(game):
+    rounds = getRounds(game)
+    print("Game Number: " + str(getGameID(game)))
+    max_rgb = [0, 0, 0]
+    for round in rounds:
+        round_rgb = getCubes(round)
+        print("Current round: ")
+        print(round_rgb)
+        if (round_rgb[0] > max_rgb[0]):
+            print("Old max: " + str(max_rgb[0]))
+            print("New max: " + str(round_rgb[0]))
+            max_rgb[0] = round_rgb[0]
+        if (round_rgb[1] > max_rgb[1]):
+            max_rgb[1] = round_rgb[1]
+        if (round_rgb[2] > max_rgb[2]):
+            max_rgb[2] = round_rgb[2]
+    return max_rgb[0] * max_rgb[1] * max_rgb[2]
+
 sum = 0
 for line in input_file.splitlines():
-    sum += maxCubes(line)
+    # sum += maxCubes(line) # Question 1 
+    sum += getPower(line) # Question 2 
+
 print(sum)
