@@ -1,4 +1,5 @@
 import os
+# input_file = open("test.txt").read()
 input_file = open("day3-input.txt").read()
 input_list = input_file.splitlines()
 line_length = len(input_list[0])
@@ -73,8 +74,65 @@ def checkAll(r, c):
     result = result or checkCharacter(r - 1, c - 1)
     return result
 
+def check(r, c):
+    result = False
+    if (r == 0 and c == 0):
+        result = result or checkBR(r, c)
+    elif (r == 0 and c == line_length - 1):
+        result = result or checkBL(r, c)
+    elif (r == line_length - 1 and c == 0):
+        result = result or checkTR(r, c)
+    elif (r == line_length - 1 and c == line_length - 1):
+        result = result or checkTL(r, c)
+    elif (r == 0):
+        result = result or checkB(r, c)
+    elif (r == line_length - 1):
+        result = result or checkT(r, c)
+    elif (c == 0):
+        result = result or checkR(r, c)
+    elif (c == line_length - 1):
+        result = result or checkL(r, c)
+    else:
+        result = result or checkAll(r, c)
+    return result
 
-print(input_list)
+def checkNumber(r, c):
+    current_str = input_list[r][c]
+    result = check(r, c)
+    current_index = c
+    if (current_index < line_length - 1):
+        current_index = c + 1
+        nextDigit = input_list[r][current_index]
+        while (nextDigit.isdigit() and (current_index < line_length - 1)):
+            print("Next Digit:")
+            print(nextDigit)
+            current_str = current_str + str(nextDigit)
+            # print(current_index)
+            result = result or check(r, current_index)
+            current_index += 1
+            nextDigit = input_list[r][current_index]
+    return current_str, result, current_index - c
+
+sum = 0
+for r in range(0, line_length):
+    c = 0
+    while (c < line_length):
+        if (input_list[r][c].isdigit()):
+            num_str, counted, skip = checkNumber(r, c)
+            if (counted):
+                print("Found " + str(num_str) + " at (" + str(r) + ", " + str(c) + ")")
+                sum += int(num_str)
+                if (c + skip > line_length):
+                    c = line_length
+                else:
+                    c += skip + 1
+            else:
+                c += 1
+        else:
+            c += 1
+
+# print(input_list)
+print(sum)
 
 
 
