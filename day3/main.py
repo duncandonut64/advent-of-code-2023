@@ -111,7 +111,28 @@ def checkNumber(r, c):
             result = result or check(r, current_index)
             current_index += 1
             nextDigit = input_list[r][current_index]
-    return current_str, result, current_index - c
+        if (current_index == line_length - 1):
+            result = result or check(r, current_index)
+            nextDigit = input_list[r][current_index]
+            if (nextDigit.isdigit()):
+                current_str = current_str + str(nextDigit)
+    return current_str, result, current_index
+# def checkNumber(r, c):
+#     current_str = input_list[r][c]
+#     result = check(r, c)
+#     current_index = c
+#     if (current_index < line_length - 1):
+#         current_index = c + 1
+#         nextDigit = input_list[r][current_index]
+#         while (nextDigit.isdigit() and (current_index < line_length - 1)):
+#             print("Next Digit:")
+#             print(nextDigit)
+#             current_str = current_str + str(nextDigit)
+#             # print(current_index)
+#             result = result or check(r, current_index)
+#             current_index += 1
+#             nextDigit = input_list[r][current_index]
+#     return current_str, result, current_index - c
 
 sum = 0
 for r in range(0, line_length):
@@ -122,10 +143,11 @@ for r in range(0, line_length):
             if (counted):
                 print("Found " + str(num_str) + " at (" + str(r) + ", " + str(c) + ")")
                 sum += int(num_str)
-                if (c + skip > line_length):
-                    c = line_length
-                else:
-                    c += skip + 1
+                c = skip
+                # if (c + skip > line_length):
+                #     c = line_length
+                # else:
+                #     c += skip + 1
             else:
                 c += 1
         else:
